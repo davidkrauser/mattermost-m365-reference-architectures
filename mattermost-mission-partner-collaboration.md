@@ -1,6 +1,6 @@
 # Mission Partner Collaboration
 
-## Overview
+## 1. Overview
 
 Mission partner collaboration extends sovereign and edge deployment models to enable joint and allied operations across organizations using Mattermost and/or Microsoft 365. This architecture delivers a secure, sovereign, and intelligent mission environment that is federated across enterprise and coalition partner networks, enabling interoperability while maintaining compliance and control.
 
@@ -10,7 +10,7 @@ Mattermost deployments may be hosted on-premises or in sovereign clouds, enablin
 
 ---
 
-## Problem Statement
+## 2. Problem Statement
 
 Multi-organizational collaborations face complex communication challenges:
 - Different organizations use different platforms (Teams, Mattermost, Matrix)
@@ -27,46 +27,46 @@ Traditional solutions require everyone to adopt the same platform or use insecur
 - Breaks down language barriers with automatic translation
 - Maintains security and compliance standards
 
-## Solution Architecture
+## 3. Solution Architecture
 
 A multi-layer collaboration approach addresses diverse organizational needs:
 
-### Layer 1: External Teams Users → Mattermost Access
+### 3.1 Layer 1: External Teams Users → Mattermost Access
 Teams users from external organizations receive Mattermost guest accounts and access Mattermost via the [Mission Collaboration plugin](https://github.com/mattermost/mattermost-plugin-msteams-devsecops) embedded in their Teams client.
 
-### Layer 2: Mattermost-to-Mattermost Collaboration
+### 3.2 Layer 2: Mattermost-to-Mattermost Collaboration
 Organizations with Mattermost deployments establish secure connections and share specific channels using [Connected Workspaces](https://docs.mattermost.com/administration-guide/onboard/connected-workspaces.html) over standard HTTPS.
 
-### Layer 3: Mattermost-to-Matrix Federation
+### 3.3 Layer 3: Mattermost-to-Matrix Federation
 Organizations using Matrix servers connect to Mattermost via the [Matrix bridge plugin](https://github.com/mattermost/mattermost-plugin-matrix-bridge) for bidirectional communication.
 
-### Layer 4: Automatic Language Translation
+### 3.4 Layer 4: Automatic Language Translation
 AI-powered [automatic translation](https://github.com/mattermost/mattermost-plugin-channel-translations) enables seamless communication across language barriers in all shared channels.
 
 ---
 
-## Core Mattermost Capabilities
+## 4. Core Mattermost Capabilities
 
 This use case benefits from Mattermost's foundational features:
 
-### Message Collaboration
+### 4.1 Message Collaboration
 Core Mattermost functionality providing secure, real-time messaging with channels, direct messages, group conversations, file sharing, and rich formatting. Mattermost includes enterprise-grade search capabilities. For large-scale deployments with over 5 million posts, [Elasticsearch or AWS OpenSearch Service](https://docs.mattermost.com/administration-guide/scale/scaling-for-enterprise.html#enterprise-search) provides optimized search performance with dedicated indexing.
 
-### Workflow Automation
+### 4.2 Workflow Automation
 The [Playbooks plugin](https://github.com/mattermost/mattermost-plugin-playbooks) enables teams to create and run structured, repeatable workflows with:
 - Customizable checklists for standardized procedures
 - Process automation to streamline repetitive tasks
 - Retrospectives for continuous improvement
 - Real-time collaboration during workflow execution
 
-### Project Tracking
+### 4.3 Project Tracking
 The [Boards plugin](https://github.com/mattermost/mattermost-plugin-boards) provides integrated project management capabilities as a self-hosted alternative to Trello, Notion, and Asana, featuring:
 - Kanban boards and table views
 - Multilingual support
 - Direct integration within Mattermost
 - Collaborative task management
 
-### AI Agents
+### 4.4 AI Agents
 The [Agents plugin](https://github.com/mattermost/mattermost-plugin-agents) integrates AI capabilities directly into Mattermost, offering:
 - Multiple AI assistants with specialized capabilities
 - Thread and channel summarization
@@ -76,7 +76,7 @@ The [Agents plugin](https://github.com/mattermost/mattermost-plugin-agents) inte
 - Support for multiple LLM backends: Azure OpenAI, OpenAI, Anthropic, or self-hosted models (Ollama, vLLM)
 - Requires PostgreSQL with pgvector extension
 
-### Audio Calls and Screenshare
+### 4.5 Audio Calls and Screenshare
 The [Calls plugin](https://github.com/mattermost/mattermost-plugin-calls) enables real-time voice calling and screen sharing directly within channels:
 - Voice calls between channel participants
 - Screen sharing capabilities
@@ -84,49 +84,31 @@ The [Calls plugin](https://github.com/mattermost/mattermost-plugin-calls) enable
 
 ---
 
-## Architecture Components
+## 5. Architecture
 
 The deployment architecture includes the following components. For detailed technical specifications, see the [Mattermost Server Architecture documentation](https://docs.mattermost.com/deployment-guide/server/server-architecture.html).
 
-**Allied or Partner Networks**: Globally distributed and segregated networks for each allied or partner organization.
+### 5.1 Allied or Partner Networks
+
+Globally distributed and segregated networks for each allied or partner organization.
 - Networks may have a firewall or access gateway protecting egress and ingress, such as network policies, IP allowlists, or WAFs depending on networking configurations.
 - Networks may operate in contested environments where internet connectivity is intermittent.
 
-**Users**: Enterprise, allied, and coalition partner users accessing client applications for Mattermost and/or Microsoft 365.
+### 5.2 Users
 
-**Microsoft Entra ID (Identity Provider)**: Partnered organizations using Microsoft 365 services may use Entra ID for unified authentication to M365 and Mattermost applications. (Optional)
+Enterprise, allied, and coalition partner users accessing client applications for Mattermost and/or Microsoft 365.
 
-**Federation Services**:
+### 5.3 Microsoft Entra ID (Identity Provider)
+
+Partnered organizations using Microsoft 365 services may use Entra ID for unified authentication to M365 and Mattermost applications. (Optional)
+
+### 5.4 Federation Services
+
 - **[Connected Workspaces](https://docs.mattermost.com/administration-guide/onboard/connected-workspaces.html)**: Federated collaboration across partner networks, with seamless synchronization of messages, threads, and files.
 - **[Guest Accounts](https://docs.mattermost.com/administration-guide/onboard/guest-accounts.html)**: Secure participation of external mission partners with least-privilege access. (Optional)
 - **[Matrix](https://github.com/mattermost/mattermost-plugin-matrix-bridge) & XMPP Interoperability**: Federation with legacy partner systems for cross-domain coalition collaboration. (Optional)
 
-**Client Applications**:
-- **Mattermost Desktop Apps**: Access Mattermost directly by deploying desktop or web apps in your organization.
-- **Mattermost Mobile Apps**: Access Mattermost via iPhone and Android apps, with support for ID-only push notifications to ensure compliance with data sovereignty requirements. (Optional)
-- **Microsoft 365 Desktop Apps**: For partnered organizations using Microsoft 365 services, Teams and Outlook can be deployed with the embedded Mattermost application for cross-domain partner collaboration within a familiar interface. (Optional)
-
-**Mattermost Server**: Core application server deployed for sovereign collaboration on private cloud or local infrastructure, such as Azure or Azure Local, to maintain compliance with STIG, FedRAMP, and NIST 800-53 standards. The server provides all capabilities described in the Core Mattermost Capabilities section above, supporting federated collaboration across partner organizations. For large-scale deployments, see [Scaling for Enterprise](https://docs.mattermost.com/administration-guide/scale/scaling-for-enterprise.html) for detailed performance tuning guidance.
-
-**Proxy Server**: The proxy server handles HTTP(S) routing within the cluster, directing traffic between the server and clients accessing Mattermost services, including requests from users in connected organizations. NGINX is recommended for load balancing with support for WebSocket connections, health check endpoints, and sticky sessions. The proxy layer provides SSL termination and distributes client traffic across application servers.
-
-**PostgreSQL Database**: Stores persistent application data on a PostgreSQL v13+ database, such as Azure Database for PostgreSQL. For high availability, configure a master/read replica architecture with connection pooling. Optimize PostgreSQL settings including connection limits, work memory allocation, and autovacuum parameters. Support for search replicas enables dedicated database resources for search operations.
-
-**Object Storage**: File uploads, images, and attachments are stored outside the application node on an S3-compatible store, such as MinIO, or Amazon S3. For high availability deployments, object storage must be shared across all application servers using network-attached storage (NAS) or S3-compatible object storage with erasure coding or replication for durability.
-
-**Recording Instance**: `calls-offloader` job service to offload heavy processing tasks from Mattermost Calls, such as recordings, transcriptions, and live captioning, to local infrastructure or private cloud. (Optional)
-
-**Integration Framework**: Custom apps, plugins, and webhooks can be deployed for real-time data integrations and alerting. (Optional)
-
-**Self-hosted LLM**: Locally hosted OpenAI compatible LLM for agentic powered collaboration. (Optional)
-
-**Microsoft Global Network**: World-wide network of Microsoft data centers, delivering public cloud services including M365 and Azure OpenAI. (Optional)
-
----
-
-## Key Components Detail
-
-### 1. Guest Accounts for External Teams Users
+#### 5.4.1 Guest Accounts for External Teams Users
 
 [Mattermost Guest Accounts Documentation](https://docs.mattermost.com/administration-guide/onboard/guest-accounts.html)
 
@@ -145,7 +127,7 @@ External Teams users access Mattermost as guests via the Mission Collaboration p
 - Individual guest account controls
 - Guest accounts count as paid users
 
-### 2. Cross-Organization Mattermost Collaboration
+#### 5.4.2 Cross-Organization Mattermost Collaboration
 
 [Connected Workspaces Documentation](https://docs.mattermost.com/administration-guide/onboard/connected-workspaces.html)
 
@@ -158,7 +140,7 @@ Shared channels synchronize messages in real-time between separate Mattermost in
 - **Participation Modes**: Read-only or full participation sharing
 - **Advanced Features** (v10.10+): Direct messages between remote users, membership sync, remote user discovery
 
-#### Resilient Federation for Joint Operations
+##### Resilient Federation for Joint Operations
 
 Connected workspaces allow federated collaboration across multiple organizations and networks while maintaining local data control of each Mattermost deployment. Messages, threads, and files are securely synchronized between environments, ensuring mission continuity for multinational operations without requiring partners to join a single centralized deployment.
 
@@ -171,7 +153,7 @@ Many mission partners continue to operate on legacy systems such as Matrix and X
 - Synchronize Mattermost channels with Matrix or XMPP rooms, allowing messages, threads, and attachments to flow across systems in real-time.
 - Each organization maintains control of its data and infrastructure, while interoperability is enabled through federation bridges rather than centralized services.
 
-#### Controlled External Access
+##### Controlled External Access
 
 Mission partner collaboration may require involving external users such as allied forces, contractors, or coalition partners that do not have Mattermost deployments themselves. Guest accounts provide a controlled mechanism to enable these users to participate in joint mission operations while maintaining strict compliance and security boundaries.
 
@@ -187,7 +169,7 @@ Mission partner collaboration may require involving external users such as allie
 
 This DMZ architecture enables secure partner collaboration while maintaining network segmentation and enforcing zero-trust principles across organizational boundaries.
 
-### 3. Matrix Federation
+#### 5.4.3 Matrix Federation
 
 [Mattermost Matrix Bridge Plugin](https://github.com/mattermost/mattermost-plugin-matrix-bridge)
 
@@ -200,7 +182,7 @@ Bidirectional communication between Mattermost and Matrix chat platforms:
 - **Message Lifecycle**: Handles edits, deletions, and reply threads
 - **Security**: Prevents message loops and ensures proper authentication
 
-### 4. Automatic Language Translation
+#### 5.4.4 Automatic Language Translation
 
 [AI Auto Translations Plugin](https://github.com/mattermost/mattermost-plugin-channel-translations)
 
@@ -213,11 +195,21 @@ Automatic message translation within configured channels:
 - **Inline Display**: Translations appear seamlessly with original messages
 - **AI-Powered**: Leverages Agents plugin with LLM backend
 
-### 5. Mattermost Server Deployment
+### 5.5 Client Applications
 
-The Mattermost server provides sovereign collaboration capabilities when deployed for federated operations on private cloud or local infrastructure, such as Azure or Azure Local, to maintain compliance with STIG, FedRAMP, and NIST 800-53 standards.
+- **Mattermost Desktop Apps**: Access Mattermost directly by deploying desktop or web apps in your organization.
+- **Mattermost Mobile Apps**: Access Mattermost via iPhone and Android apps, with support for ID-only push notifications to ensure compliance with data sovereignty requirements. (Optional)
+- **Microsoft 365 Desktop Apps**: For partnered organizations using Microsoft 365 services, Teams and Outlook can be deployed with the embedded Mattermost application for cross-domain partner collaboration within a familiar interface. (Optional)
 
-#### High Availability and Fault Tolerance
+#### 5.5.1 ID-only Push Notifications
+
+To prevent sensitive message content from being transmitted to external notification services such as Apple Push Notification Service (APNS) and Firebase Cloud Messaging (FCM), configure Mattermost to use ID-only push notifications. In this mode, only a message identifier is sent to public push notification services, and the client retrieves the content securely from the Mattermost server over an encrypted channel.
+
+### 5.6 Mattermost Server
+
+Core application server deployed for sovereign collaboration on private cloud or local infrastructure, such as Azure or Azure Local, to maintain compliance with STIG, FedRAMP, and NIST 800-53 standards. The server provides all capabilities described in the Core Mattermost Capabilities section above, supporting federated collaboration across partner organizations. For large-scale deployments, see [Scaling for Enterprise](https://docs.mattermost.com/administration-guide/scale/scaling-for-enterprise.html) for detailed performance tuning guidance.
+
+#### 5.6.1 High Availability and Fault Tolerance
 
 Deploy Mattermost in a [cluster-based architecture](https://docs.mattermost.com/administration-guide/scale/high-availability-cluster-based-deployment.html) to ensure continued availability during outages or hardware failures. All cluster nodes must reside within the same datacenter to ensure optimal performance and consistent network latency. High availability requires redundant infrastructure across each critical component:
 
@@ -228,14 +220,14 @@ Deploy Mattermost in a [cluster-based architecture](https://docs.mattermost.com/
 
 **Cluster Operations**: Rolling updates can be performed for dot releases without service interruption. Configuration changes can typically be applied without full service restarts (server restart takes approximately 5 seconds; database schema updates may require up to 30 seconds). Use environment variables for configuration management and mmctl for cluster administration.
 
-#### Zero-trust Access Controls
+#### 5.6.2 Zero-trust Access Controls
 
 Mission partner collaboration environments should adopt zero-trust principles by implementing attribute-based access control (ABAC) to ensure access to mission channels is governed by dynamic attributes such as role, clearance, location, and mission context.
 
 - Restrict channel access based on user attributes rather than static groups.
 - Continuously audit ABAC policies to ensure compliance with multinational operational and legal requirements.
 
-#### Compliance and Retention
+#### 5.6.3 Compliance and Retention
 
 Sovereign environments often require strict enforcement of retention policies, legal hold, and export controls. Configure Mattermost's built-in compliance features to meet agency or sectoral mandates.
 
@@ -243,11 +235,31 @@ Sovereign environments often require strict enforcement of retention policies, l
 - Configure message retention and legal hold policies to align with applicable regulations.
 - Integrate with your organization's eDiscovery and archiving systems as required.
 
-### 6. AI Agents Plugin
+### 5.7 Proxy Server
 
-The [Agents plugin](https://github.com/mattermost/mattermost-plugin-agents) integrates AI capabilities directly into Mattermost, offering multiple AI assistants, thread and channel summarization, semantic search, and meeting transcription.
+The proxy server handles HTTP(S) routing within the cluster, directing traffic between the server and clients accessing Mattermost services, including requests from users in connected organizations. NGINX is recommended for load balancing with support for WebSocket connections, health check endpoints, and sticky sessions. The proxy layer provides SSL termination and distributes client traffic across application servers.
 
-#### Sovereign AI
+### 5.8 PostgreSQL Database
+
+Stores persistent application data on a PostgreSQL v13+ database, such as Azure Database for PostgreSQL. For high availability, configure a master/read replica architecture with connection pooling. Optimize PostgreSQL settings including connection limits, work memory allocation, and autovacuum parameters. Support for search replicas enables dedicated database resources for search operations.
+
+### 5.9 Object Storage
+
+File uploads, images, and attachments are stored outside the application node on an S3-compatible store, such as MinIO, or Amazon S3. For high availability deployments, object storage must be shared across all application servers using network-attached storage (NAS) or S3-compatible object storage with erasure coding or replication for durability.
+
+### 5.10 Recording Instance
+
+`calls-offloader` job service to offload heavy processing tasks from Mattermost Calls, such as recordings, transcriptions, and live captioning, to local infrastructure or private cloud. (Optional)
+
+### 5.11 Integration Framework
+
+Custom apps, plugins, and webhooks can be deployed for real-time data integrations and alerting. (Optional)
+
+### 5.12 Self-hosted LLM
+
+Locally hosted OpenAI compatible LLM for agentic powered collaboration. (Optional)
+
+#### 5.12.1 Sovereign AI
 
 AI capabilities enhance mission collaboration with summarization, translation, semantic search, and decision support. Sovereign AI ensures these capabilities remain fully under organizational control, without reliance on public cloud services or external data processing. Deploying AI in a self-hosted or compliance-approved environment enables secure, mission-ready augmentation.
 
@@ -257,21 +269,17 @@ AI capabilities enhance mission collaboration with summarization, translation, s
 - Embed AI into operational playbooks for automated task execution, situational summaries, and proactive recommendations.
 - Allow authorized users from partner organizations to securely access locally hosted LLMs through shared channels in connected workspaces.
 
-### 7. Calls Plugin
+### 5.13 Microsoft Global Network
+
+World-wide network of Microsoft data centers, delivering public cloud services including M365 and Azure OpenAI. (Optional)
+
+### 5.14 Calls Plugin
 
 The [Calls plugin](https://github.com/mattermost/mattermost-plugin-calls) enables real-time voice calling and screen sharing directly within channels.
 
-#### Sovereign Audio & Screensharing
+#### 5.14.1 Sovereign Audio & Screensharing
 
 Deploy Mattermost Calls in a self-hosted configuration to ensure voice and screen sharing capabilities remain operational without reliance on the internet, and that media traffic does not traverse non-compliant third-party services.
 
 - The `rtcd` service for scalable, low-latency media routing hosted on-premises. Run multiple `rtcd` nodes for redundancy.
 - The `calls-offloader` service offloads heavy processing tasks like recording, transcription and live captioning to a locally hosted compliance-approved job server.
-
-### 8. Mobile Apps
-
-Mattermost provides native mobile applications for iPhone and Android, with support for ID-only push notifications to ensure compliance with data sovereignty requirements.
-
-#### ID-only Push Notifications
-
-To prevent sensitive message content from being transmitted to external notification services such as Apple Push Notification Service (APNS) and Firebase Cloud Messaging (FCM), configure Mattermost to use ID-only push notifications. In this mode, only a message identifier is sent to public push notification services, and the client retrieves the content securely from the Mattermost server over an encrypted channel.
