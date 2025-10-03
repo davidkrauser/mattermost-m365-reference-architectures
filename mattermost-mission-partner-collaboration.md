@@ -140,7 +140,7 @@ Shared channels synchronize messages in real-time between separate Mattermost in
 - **Participation Modes**: Read-only or full participation sharing
 - **Advanced Features** (v10.10+): Direct messages between remote users, membership sync, remote user discovery
 
-#### Resilient Federation for Joint Operations
+#### 5.4.2.1 Resilient Federation for Joint Operations
 
 Connected workspaces allow federated collaboration across multiple organizations and networks while maintaining local data control of each Mattermost deployment. Messages, threads, and files are securely synchronized between environments, ensuring mission continuity for multinational operations without requiring partners to join a single centralized deployment.
 
@@ -153,7 +153,7 @@ Many mission partners continue to operate on legacy systems such as Matrix and X
 - Synchronize Mattermost channels with Matrix or XMPP rooms, allowing messages, threads, and attachments to flow across systems in real-time.
 - Each organization maintains control of its data and infrastructure, while interoperability is enabled through federation bridges rather than centralized services.
 
-#### Controlled External Access
+#### 5.4.2.2 Controlled External Access
 
 Mission partner collaboration may require involving external users such as allied forces, contractors, or coalition partners that do not have Mattermost deployments themselves. Guest accounts provide a controlled mechanism to enable these users to participate in joint mission operations while maintaining strict compliance and security boundaries.
 
